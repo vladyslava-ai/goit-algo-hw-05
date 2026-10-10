@@ -12,9 +12,10 @@ def input_error(func):
 
 
 def parse_input(user_input):
-    cmd, *args = user_input.split()
-    cmd = cmd.strip().lower()
-    return cmd, *args
+    parts = user_input.split()
+    cmd = parts[0].lower() if parts else ""
+    return cmd, *parts[1:]
+
 
 @input_error
 def add_contact(args, contacts):
@@ -22,20 +23,19 @@ def add_contact(args, contacts):
     contacts[name] = phone
     return "Contact added."
 
+
 @input_error
 def change_contact(args, contacts):
     name, phone = args
-    if name in contacts:
-        contacts[name] = phone
-        return "Contact updated."
-    return "Contact not found."
+    contacts[name]  # якщо імені немає, виникне KeyError
+    contacts[name] = phone
+    return "Contact updated."
+
 
 @input_error
 def show_phone(args, contacts):
     name = args[0]
-    if name in contacts:
-        return contacts[name]
-    return "Contact not found."
+    return contacts[name]
 
 
 @input_error
@@ -46,6 +46,7 @@ def show_all(contacts):
     for name, phone in contacts.items():
         result += f"{name}: {phone}\n"
     return result
+
 
 def main():
     contacts = {}

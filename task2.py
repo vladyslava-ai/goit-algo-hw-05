@@ -1,9 +1,7 @@
 import re
 
-
 def generator_numbers(text: str):
-    pattern = r"\b\d+\.\d+\b"
-
+    pattern = r"(?<= )\d+\.\d+(?= )"
     for number in re.findall(pattern, text):
         yield float(number)
 
@@ -21,4 +19,3 @@ text = (
 total_income = sum_profit(text, generator_numbers)
 
 print(f"Загальний дохід: {total_income:.2f}")
-
